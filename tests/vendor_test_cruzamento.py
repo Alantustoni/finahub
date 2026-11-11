@@ -15,8 +15,8 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from contas_a_pagar_suite.vendor.organizador_dda.core.banco_parser import PagamentoBanco
-from contas_a_pagar_suite.vendor.organizador_dda.core.banco_cruzamento import cruzar
+from finahub.vendor.organizador_dda.core.banco_parser import PagamentoBanco
+from finahub.vendor.organizador_dda.core.banco_cruzamento import cruzar
 
 CNPJ_WM = "12345678000199"
 

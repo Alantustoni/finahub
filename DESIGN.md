@@ -1,17 +1,17 @@
-# Contas a Pagar Suite — Guia de Design "ERP Premium escuro"
+# FinaHub — Guia de Design "ERP Premium escuro"
 
 Este documento tem duas partes: **(1)** o prompt que gerou este redesign
 (guarde — serve para pedir ajustes ou refazer em outra ferramenta) e
 **(2)** os tokens oficiais do design, que são a fonte da verdade do
-`contas_a_pagar_suite/core/theme.py`.
+`finahub/core/theme.py`.
 
 ---
 
 ## 1 · O prompt
 
-> Redesenhe a interface do Contas a Pagar Suite (CustomTkinter, tela 1280×820)
+> Redesenhe a interface do FinaHub (CustomTkinter, tela 1280×820)
 > aplicando o design **"ERP Premium escuro"** da prévia
-> `preview_designs_contas_a_pagar_suite.html`, reproduzindo curvas, cores e
+> `preview_designs_finahub.html`, reproduzindo curvas, cores e
 > detalhes o mais fielmente possível dentro do que o CustomTkinter
 > suporta. Regras:
 >

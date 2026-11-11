@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from contas_a_pagar_suite.modules.retorno import combinar, gravar
+from finahub.modules.retorno import combinar, gravar
 
 CFG = {"separar_por_empresa": True, "ordenar_por_data": True,
        "empresas": ["ALFAMETAL", "BETAVIARIA"]}

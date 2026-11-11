@@ -6,7 +6,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from contas_a_pagar_suite.modules.ret import (
+from finahub.modules.ret import (
     converter_itau_para_bradesco, detectar_banco, gravar, gravar_dividido,
     processar,
 )

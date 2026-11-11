@@ -10,7 +10,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from contas_a_pagar_suite.vendor.organizador_dda.core.conciliacao import conciliar
+from finahub.vendor.organizador_dda.core.conciliacao import conciliar
 
 
 class _Proc:

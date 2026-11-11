@@ -9,7 +9,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from contas_a_pagar_suite.modules import dda_compras as DC
+from finahub.modules import dda_compras as DC
 
 
 # ── abreviação ────────────────────────────────────────────────────────── #
@@ -173,9 +173,9 @@ def test_relatorio_leva_data_do_banco_so_nas_programadas():
 
 
 def test_ja_veio_verde_na_planilha1_e_fora_da_cobranca(tmp_path):
-    from contas_a_pagar_suite.vendor.organizador_dda.core.config import Config
-    from contas_a_pagar_suite.vendor.organizador_dda.core.processor import ProcessingResult
-    from contas_a_pagar_suite.vendor.organizador_dda.excel.report_generator import ExcelReportGenerator
+    from finahub.vendor.organizador_dda.core.config import Config
+    from finahub.vendor.organizador_dda.core.processor import ProcessingResult
+    from finahub.vendor.organizador_dda.excel.report_generator import ExcelReportGenerator
 
     def nota(forn, prv, compras, prog=False):
         return {"FILIAL": "MATRIZ", "EMPRESA": "ALFAMETAL MATRIZ",

@@ -12,7 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from contas_a_pagar_suite.modules import importacao_usinas as imp
+from finahub.modules import importacao_usinas as imp
 
 BARRA = "34196157900084176261090000000000000000000001"   # 44 díg
 CFG_RET = {

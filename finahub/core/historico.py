@@ -5,7 +5,7 @@ Cada execução gera um evento: quando, qual módulo, arquivos de entrada,
 resumo (contagens/valores) e arquivo gerado. É o que alimenta o
 dashboard — e responde ao clássico "eu processei ou não processei?".
 
-Armazenamento: JSON em ~/.contas_a_pagar_suite/historico.json, escrita atômica,
+Armazenamento: JSON em ~/.finahub/historico.json, escrita atômica,
 mantém os últimos 500 eventos.
 """
 from __future__ import annotations

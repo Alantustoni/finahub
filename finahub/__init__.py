@@ -1,5 +1,5 @@
 """
-Contas a Pagar Suite — Central de Ferramentas Financeiras.
+FinaHub — Central de Ferramentas Financeiras (antigo Contas a Pagar Suite).
 
 Reúne em um único sistema as ferramentas da pasta DEV.ALAN:
   • Organizador DDA      (core do DDA V7, integrado)
@@ -9,4 +9,4 @@ Reúne em um único sistema as ferramentas da pasta DEV.ALAN:
   • Organizador Usinas   (reescrito — bug da NF corrigido)
 """
 __version__ = "2.9.0"
-__app_name__ = "ALAN — Contas a Pagar"
+__app_name__ = "FinaHub — Contas a Pagar"

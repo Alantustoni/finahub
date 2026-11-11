@@ -1,5 +1,5 @@
 [project]
-name = "contas-a-pagar-suite"
+name = "finahub"
 version = "2.9.0"
 description = "Ferramentas desktop de contas a pagar: CNAB240, retorno SISPAG, DDA e conciliação remessa x banco"
 readme = "README.md"

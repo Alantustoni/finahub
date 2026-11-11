@@ -18,11 +18,11 @@ from openpyxl import load_workbook
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from contas_a_pagar_suite.vendor.organizador_dda.core.config import Config
-from contas_a_pagar_suite.vendor.organizador_dda.core.processor import ProcessingResult
-from contas_a_pagar_suite.vendor.organizador_dda.core.banco_parser import PagamentoBanco
-from contas_a_pagar_suite.vendor.organizador_dda.core.banco_cruzamento import cruzar
-from contas_a_pagar_suite.vendor.organizador_dda.excel.report_generator import ExcelReportGenerator
+from finahub.vendor.organizador_dda.core.config import Config
+from finahub.vendor.organizador_dda.core.processor import ProcessingResult
+from finahub.vendor.organizador_dda.core.banco_parser import PagamentoBanco
+from finahub.vendor.organizador_dda.core.banco_cruzamento import cruzar
+from finahub.vendor.organizador_dda.excel.report_generator import ExcelReportGenerator
 
 CNPJ_WM = "90.100.600/0001-14"
 
@@ -137,7 +137,7 @@ def _montar_arquivo_revisado(caminho):
 
 def test_consolidado_negrito_mg():
     """Na aba consolidada ALFAMETAL - BTV, a filial MG sai em negrito."""
-    from contas_a_pagar_suite.vendor.organizador_dda.excel.consolidador import (
+    from finahub.vendor.organizador_dda.excel.consolidador import (
         consolidar_arquivo)
     tmp = Path(tempfile.mkdtemp()) / "revisado.xlsx"
     _montar_arquivo_revisado(tmp)

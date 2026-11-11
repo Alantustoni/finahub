@@ -6,7 +6,7 @@ import openpyxl
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from contas_a_pagar_suite.modules import conferir_compras as CC
+from finahub.modules import conferir_compras as CC
 
 TABELA = """<p>Seguem as notas</p><table>
 <tr><td>EMPRESA</td><td>FOR</td><td>NOME</td><td>AF</td><td>VENCIMENTO</td><td>NF</td></tr>

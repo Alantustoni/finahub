@@ -17,7 +17,7 @@ class ConfigView(ctk.CTkFrame):
 
         cabecalho(self, "Configurações",
                   "Uma configuração só para todos os módulos — salva em "
-                  "~/.contas_a_pagar_suite/config.json (gravação atômica)."
+                  "~/.finahub/config.json (gravação atômica)."
                   , crumb="Compartilhado por todos os módulos", icone="⚙️").pack(fill="x", pady=(0, T.PAD))
 
         scroll = ctk.CTkScrollableFrame(self, fg_color="transparent")

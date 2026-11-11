@@ -1,6 +1,6 @@
-# Contas a Pagar Suite — CNAB240, SISPAG, DDA e conciliação
+# FinaHub — CNAB240, SISPAG, DDA e conciliação
 
-[![tests](https://github.com/Alantustoni/contas-a-pagar-suite/actions/workflows/tests.yml/badge.svg)](https://github.com/Alantustoni/contas-a-pagar-suite/actions/workflows/tests.yml)
+[![tests](https://github.com/Alantustoni/finahub/actions/workflows/tests.yml/badge.svg)](https://github.com/Alantustoni/finahub/actions/workflows/tests.yml)
 
 Aplicativo desktop (Windows) que junta numa janela só as rotinas de um
 setor de contas a pagar que antes rodavam em 5 executáveis separados:
@@ -41,7 +41,7 @@ trocados por valores fictícios com dígito verificador válido).
 
 ## Antes × depois
 
-A suíte nasceu reescrevendo ferramentas antigas que tinham bugs reais:
+O FinaHub nasceu reescrevendo ferramentas antigas que tinham bugs reais:
 
 ```python
 # Juntador RET antigo (juntador_ret_v2.py): trailers com contadores fixos
@@ -60,7 +60,7 @@ python main.py
 ```
 
 Não precisa de variável de ambiente nem de configuração prévia: na primeira
-execução o app cria `~/.contas_a_pagar_suite/` com a config de fábrica. No
+execução o app cria `~/.finahub/` com a config de fábrica. No
 Windows também dá para usar `iniciar.bat`.
 
 ### Gerar o executável
@@ -95,7 +95,7 @@ comportamento do modo legado). Cobrem, entre outros:
 ## Estrutura
 
 ```
-contas_a_pagar_suite/
+finahub/
 ├── core/        config central, histórico, paths, tema, utils (valor/data BR)
 ├── modules/     regras de negócio, sem interface (ret, retorno, pensoes, ...)
 ├── ui/          interface CustomTkinter — uma tela por módulo
@@ -108,7 +108,7 @@ tests/           pytest
 ```
 
 Os dados do usuário (config ativa, histórico e logs) ficam em
-`~/.contas_a_pagar_suite/`, fora da pasta do programa.
+`~/.finahub/`, fora da pasta do programa.
 
 ## Layout CNAB240 — segmento G (usado pelo Juntador e pela Importação)
 

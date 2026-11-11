@@ -7,7 +7,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from contas_a_pagar_suite.modules import pensoes as P
+from finahub.modules import pensoes as P
 
 
 def _dp(path, linhas, total=None):

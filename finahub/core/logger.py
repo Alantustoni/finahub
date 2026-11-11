@@ -1,5 +1,5 @@
 """
-logger.py — Logging da suíte em ~/.contas_a_pagar_suite/logs/ (rotação diária simples).
+logger.py — Logging da suíte em ~/.finahub/logs/ (rotação diária simples).
 """
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from .paths import LOG_DIR, garantir_dirs
 
 def configurar_logging(nivel: int = logging.INFO) -> None:
     garantir_dirs()
-    arquivo = LOG_DIR / f"contas_a_pagar_suite_{date.today().isoformat()}.log"
+    arquivo = LOG_DIR / f"finahub_{date.today().isoformat()}.log"
     logging.basicConfig(
         level=nivel,
         format="%(asctime)s [%(levelname)-7s] %(name)s: %(message)s",

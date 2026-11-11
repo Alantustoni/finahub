@@ -6,9 +6,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pytest
 
-from contas_a_pagar_suite.modules.dda_ext import (DataProcessorExt, MAPA_POSICIONAL,
+from finahub.modules.dda_ext import (DataProcessorExt, MAPA_POSICIONAL,
                                         semana_do_resultado)
-from contas_a_pagar_suite.vendor.organizador_dda.core.config import Config
+from finahub.vendor.organizador_dda.core.config import Config
 
 
 def _planilha(tmp_path, com_cabecalho: bool):
@@ -96,8 +96,8 @@ def test_semana_do_resultado(tmp_path):
 
 def _proc_real(tmp_path):
     """DataProcessorExt com config real de defaults num tmp."""
-    from contas_a_pagar_suite.core.config_central import ConfigCentral
-    from contas_a_pagar_suite.modules.dda_ext import DataProcessorExt
+    from finahub.core.config_central import ConfigCentral
+    from finahub.modules.dda_ext import DataProcessorExt
     cfgc = ConfigCentral(tmp_path / "config.json")
     cfgc.salvar()
     return (DataProcessorExt(cfgc.config_dda(),

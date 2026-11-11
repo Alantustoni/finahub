@@ -14,8 +14,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pytest
 
-from contas_a_pagar_suite.core.utils import formatar_moeda, parse_data_br, parse_valor_br
-from contas_a_pagar_suite.core.config_central import DEFAULT, ConfigCentral
+from finahub.core.utils import formatar_moeda, parse_data_br, parse_valor_br
+from finahub.core.config_central import DEFAULT, ConfigCentral
 
 
 # ── parse_valor_br ────────────────────────────────────────────────────
@@ -151,3 +151,19 @@ def test_chaves_motor_nao_vao_para_o_json(tmp_path):
     # mas em memória continuam vindo do código
     assert cfg.get("usinas", "mapa_posicional") == \
         DEFAULT["usinas"]["mapa_posicional"]
+
+
+def test_migra_pasta_antiga_uma_vez(tmp_path):
+    from finahub.core.paths import migrar_pasta_antiga
+    antigo, novo = tmp_path / ".contas_a_pagar_suite", tmp_path / ".finahub"
+    antigo.mkdir()
+    (antigo / "config.json").write_text('{"x": 1}', encoding="utf-8")
+    assert migrar_pasta_antiga(novo, antigo) is True
+    assert (novo / "config.json").read_text(encoding="utf-8") == '{"x": 1}'
+    assert (antigo / "config.json").exists()          # antiga fica como backup
+    assert migrar_pasta_antiga(novo, antigo) is False  # não sobrescreve depois
+
+
+def test_sem_pasta_antiga_nao_migra(tmp_path):
+    from finahub.core.paths import migrar_pasta_antiga
+    assert migrar_pasta_antiga(tmp_path / ".finahub", tmp_path / "nada") is False

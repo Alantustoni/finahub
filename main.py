@@ -1,5 +1,5 @@
 """
-Contas a Pagar Suite — entry point.
+FinaHub — entry point.
 
 Startup rápido: só tkinter/customtkinter carregam aqui; pandas e openpyxl
 são importados dentro das threads de trabalho de cada módulo.
@@ -14,19 +14,19 @@ from pathlib import Path
 # garante import do pacote rodando de qualquer diretório
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from contas_a_pagar_suite.core.logger import configurar_logging
-from contas_a_pagar_suite.core.paths import garantir_dirs
+from finahub.core.logger import configurar_logging
+from finahub.core.paths import garantir_dirs
 
 
 def main() -> None:
     garantir_dirs()
     configurar_logging()
-    logger = logging.getLogger("contas_a_pagar_suite")
+    logger = logging.getLogger("finahub")
     logger.info("Iniciando ALAN — Contas a Pagar…")
 
     try:
-        from contas_a_pagar_suite.ui.app import AlanSuiteApp
-        app = AlanSuiteApp()
+        from finahub.ui.app import FinaHubApp
+        app = FinaHubApp()
         app.mainloop()
     except Exception:
         logger.critical("Erro fatal na inicialização:\n%s", traceback.format_exc())
@@ -34,10 +34,10 @@ def main() -> None:
         try:
             import tkinter.messagebox as mb
             mb.showerror(
-                "Contas a Pagar Suite — erro fatal",
+                "FinaHub — erro fatal",
                 "O programa encontrou um erro ao iniciar.\n\n"
                 + traceback.format_exc(limit=5)
-                + "\n\nO log completo está em ~/.contas_a_pagar_suite/logs/")
+                + "\n\nO log completo está em ~/.finahub/logs/")
         except Exception:
             pass
         raise

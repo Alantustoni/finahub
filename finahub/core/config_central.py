@@ -1,7 +1,7 @@
 """
 config_central.py — Configuração única da suíte.
 
-Um só config.json (em ~/.contas_a_pagar_suite) alimenta TODOS os módulos:
+Um só config.json (em ~/.finahub) alimenta TODOS os módulos:
   • as chaves que o core do DDA conhece (empresas, feriados, exclusões…)
     são repassadas ao Config do organizador_dda sem alteração;
   • as chaves novas ("usinas", "ret") configuram os módulos reescritos.

@@ -42,14 +42,14 @@ GRUPOS_NAV = [
 ]
 
 
-class AlanSuiteApp(ctk.CTk):
+class FinaHubApp(ctk.CTk):
     def __init__(self) -> None:
         super().__init__(fg_color=T.FUNDO)
         ctk.set_appearance_mode("light")
         self.geometry("1280x820")
         self.minsize(1080, 700)
 
-        self.title(f"ALAN — Contas a Pagar  ·  v{__version__}")
+        self.title(f"FinaHub — Contas a Pagar  ·  v{__version__}")
         self.config = ConfigCentral()
         self.toast = Toast(self)
         self._views: Dict[str, ctk.CTkFrame] = {}
@@ -76,12 +76,12 @@ class AlanSuiteApp(ctk.CTk):
         # marca: quadradinho verde com "A" + nome
         marca = ctk.CTkFrame(sb, fg_color="transparent")
         marca.pack(fill="x", padx=18, pady=(22, 14))
-        ctk.CTkLabel(marca, text="A", width=34, height=34, corner_radius=9,
+        ctk.CTkLabel(marca, text="F", width=34, height=34, corner_radius=9,
                      fg_color=T.AZUL, text_color=T.BRANCO,
                      font=(T.FONTE, 16, "bold")).pack(side="left")
         txt = ctk.CTkFrame(marca, fg_color="transparent")
         txt.pack(side="left", padx=10)
-        ctk.CTkLabel(txt, text="ALAN", font=(T.FONTE, 16, "bold"),
+        ctk.CTkLabel(txt, text="FinaHub", font=(T.FONTE, 16, "bold"),
                      text_color=T.BRANCO, anchor="w", height=18).pack(fill="x")
         ctk.CTkLabel(txt, text="Contas a Pagar", font=(T.FONTE, 11),
                      text_color=T.SIDEBAR_RODAPE, anchor="w", height=16).pack(fill="x")
