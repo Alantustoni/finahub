@@ -178,6 +178,7 @@ _RE_NUM = re.compile(r"[^\d,.-]")
 
 
 _ALTURA_LINHA = 26          # px por linha da tabela (Treeview)
+_ALTURA_LINHA_LEVE = 30     # estilo leve (dashboard)
 _ESTILO_PRONTO = False
 
 
@@ -202,6 +203,18 @@ def _estilo_tabela(widget: tk.Misc) -> None:
     st.map("Alan.Treeview", background=[("selected", T.INFO_BG)],
            foreground=[("selected", T.AZUL_ESCURO)])
     st.layout("Alan.Treeview", [("Treeview.treearea", {"sticky": "nswe"})])
+    # estilo "leve": cabeçalho cinza-claro e linhas mais altas (dashboard)
+    st.configure("Leve.Treeview", background=T.CARD, fieldbackground=T.CARD,
+                 foreground=T.INK, rowheight=_ALTURA_LINHA_LEVE, borderwidth=0,
+                 font=(T.FONTE, 10))
+    st.configure("Leve.Treeview.Heading", background=T.NEUTRO_BG,
+                 foreground=T.INK_2, font=(T.FONTE, 9, "bold"),
+                 relief="flat", padding=(10, 8), borderwidth=0)
+    st.map("Leve.Treeview.Heading",
+           background=[("active", T.BORDA)], foreground=[("active", T.INK)])
+    st.map("Leve.Treeview", background=[("selected", T.INFO_BG)],
+           foreground=[("selected", T.AZUL_ESCURO)])
+    st.layout("Leve.Treeview", [("Treeview.treearea", {"sticky": "nswe"})])
     _ESTILO_PRONTO = True
 
 
@@ -232,9 +245,13 @@ class Tabela(ctk.CTkFrame):
                  larguras: Optional[Sequence[int]] = None, altura: int = 220,
                  busca: bool = False, exportar: bool = False,
                  nome_export: str = "tabela",
-                 alinhamentos: Optional[Sequence[str]] = None, **kw):
+                 alinhamentos: Optional[Sequence[str]] = None,
+                 estilo: str = "padrao", unidade: str = "linha(s)", **kw):
         kw.setdefault("fg_color", "transparent")
         super().__init__(master, **kw)
+        # "padrao" = cabeçalho grafite; "leve" = cabeçalho claro, linhas altas
+        self._estilo = "Leve.Treeview" if estilo == "leve" else "Alan.Treeview"
+        self._unidade = unidade
         self._colunas = list(colunas)
         self._larguras = list(larguras or [140] * len(colunas))
         # alinhamento por coluna: "w" (esquerda, padrão) ou "e" (direita p/ nº)
@@ -278,10 +295,11 @@ class Tabela(ctk.CTkFrame):
         moldura = ctk.CTkFrame(self, fg_color=T.CARD, corner_radius=T.RAIO,
                                border_width=1, border_color=T.BORDA)
         moldura.pack(fill="both", expand=True)
-        linhas_visiveis = max(3, int(altura // _ALTURA_LINHA))
+        alt = _ALTURA_LINHA_LEVE if estilo == "leve" else _ALTURA_LINHA
+        linhas_visiveis = max(3, int(altura // alt))
         self._tree = ttk.Treeview(
             moldura, columns=[str(i) for i in range(len(self._colunas))],
-            show="headings", height=linhas_visiveis, style="Alan.Treeview",
+            show="headings", height=linhas_visiveis, style=self._estilo,
             selectmode="extended")
         sb = ctk.CTkScrollbar(moldura, command=self._tree.yview,
                               button_color=T.BORDA, button_hover_color=T.AZUL_CLARO)
@@ -392,7 +410,7 @@ class Tabela(ctk.CTkFrame):
         if self._lbl_cont is not None:
             total = len(self._dados)
             vis = len(linhas)
-            txt = f"{vis} de {total}" if vis != total else f"{total} linha(s)"
+            txt = f"{vis} de {total}" if vis != total else f"{total} {self._unidade}"
             if vis > max_visiveis:
                 txt = f"{max_visiveis} de {vis} exibidas"
             self._lbl_cont.configure(text=txt)

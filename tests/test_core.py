@@ -167,3 +167,52 @@ def test_migra_pasta_antiga_uma_vez(tmp_path):
 def test_sem_pasta_antiga_nao_migra(tmp_path):
     from finahub.core.paths import migrar_pasta_antiga
     assert migrar_pasta_antiga(tmp_path / ".finahub", tmp_path / "nada") is False
+
+
+# ── formatação da tabela "Últimas execuções" ─────────────────────────
+from finahub.core.historico import formatar_execucao
+
+
+def test_execucao_com_alerta():
+    e = {"ts": "2026-11-05T10:46:08", "modulo": "conferir_compras",
+         "acao": "Conferência Outlook × planilha",
+         "resumo": {"emails": 153, "notas": 1512, "faltando": 7}, "saida": ""}
+    f = formatar_execucao(e)
+    assert f["quando"] == "05/11 · 10:46"
+    assert f["modulo"] == "Conferir Compras"
+    assert f["resultado"] == "153 e-mails · 1.512 notas"
+    assert f["status"] == "⚠ 7 faltando"
+    assert f["arquivo"] == "—"
+    assert f["atencao"] is True
+
+
+def test_execucao_ok_com_arquivo_e_singular():
+    e = {"ts": "2026-11-03T12:16:28", "modulo": "importacao_usinas",
+         "acao": "Importação Usinas (CSV → arquivo)",
+         "resumo": {"boletos_validos": 34, "duplicados": 34,
+                    "registros": 136, "arquivos": 1},
+         "saida": r"C:\saida\importacao_usinas_20261103_121627.txt"}
+    f = formatar_execucao(e)
+    assert f["resultado"] == "34 boletos · 136 registros · 1 arquivo"
+    assert f["status"] == "✓ OK"
+    assert f["arquivo"] == "importacao_usinas_20261103_121627.txt"
+    assert f["atencao"] is False
+
+
+def test_execucao_sem_resumo_usa_acao_e_varios_alertas():
+    f = formatar_execucao({"ts": "2026-10-30T17:18:44", "modulo": "dda",
+                           "acao": "Consolidação", "resumo": {}, "saida": ""})
+    assert f["resultado"] == "Consolidação"
+    r = formatar_execucao({"ts": "x", "modulo": "remessa", "acao": "Conciliação",
+                           "resumo": {"conciliados": 10, "divergencias": 1,
+                                      "inconsistencias": 2}})
+    assert r["quando"] == "x"
+    assert r["resultado"] == "10 conciliados"
+    assert r["status"] == "⚠ 1 divergência · 2 inconsistências"
+
+
+def test_execucao_pensoes_mostra_total_em_reais():
+    f = formatar_execucao({"ts": "2026-11-01T09:00:00", "modulo": "pensoes",
+                           "acao": "CSV", "resumo": {"linhas": 12, "total": 1234.5,
+                                                     "divisoes": 2, "titulo": "X"}})
+    assert f["resultado"] == "12 linhas · R$ 1.234,50 · 2 divisões"

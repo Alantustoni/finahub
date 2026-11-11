@@ -118,6 +118,86 @@ def pendencias_abertas() -> List[Dict[str, Any]]:
     return out
 
 
+# ── formatação para a tabela "Últimas execuções" ─────────────────────
+# chave do resumo → (singular, plural). A ordem do resumo é mantida.
+_ROTULOS = {
+    "emails": ("e-mail", "e-mails"),
+    "notas": ("nota", "notas"),
+    "incluidas": ("incluída", "incluídas"),
+    "ja_existiam": ("já existia", "já existiam"),
+    "linhas": ("linha", "linhas"),
+    "programados": ("programado", "programados"),
+    "conciliados": ("conciliado", "conciliados"),
+    "boletos_validos": ("boleto", "boletos"),
+    "registros": ("registro", "registros"),
+    "arquivos": ("arquivo", "arquivos"),
+    "lotes": ("lote", "lotes"),
+    "titulos_sem_usinas": ("título", "títulos"),
+    "titulos_usinas": ("título de usina", "títulos de usina"),
+    "divisoes": ("divisão", "divisões"),
+}
+# chaves que indicam algo a resolver → coluna Status
+_ALERTAS = {
+    "faltando": ("faltando", "faltando"),
+    "pendentes": ("pendente", "pendentes"),
+    "divergencias": ("divergência", "divergências"),
+    "inconsistencias": ("inconsistência", "inconsistências"),
+    "remessas_ausentes": ("remessa ausente", "remessas ausentes"),
+}
+
+
+def _milhar(n: int) -> str:
+    return f"{n:,}".replace(",", ".")
+
+
+def _qtd(n: int, rotulos: tuple) -> str:
+    return f"{_milhar(n)} {rotulos[0] if n == 1 else rotulos[1]}"
+
+
+def formatar_execucao(e: Dict[str, Any], max_itens: int = 3) -> Dict[str, str]:
+    """Converte um evento do histórico nas colunas legíveis do dashboard.
+
+    Retorna quando ("05/11 · 10:46"), modulo, resultado ("153 e-mails ·
+    1.512 notas"), status ("✓ OK" / "⚠ 7 faltando"), arquivo (só o nome)
+    e atencao (True quando o status tem alerta).
+    """
+    ts = str(e.get("ts", ""))
+    try:
+        d = datetime.fromisoformat(ts)
+        quando = f"{d:%d/%m} · {d:%H:%M}"
+    except ValueError:
+        quando = ts or "—"
+
+    r = e.get("resumo") or {}
+    partes = []
+    for chave, valor in r.items():
+        if chave == "total" and isinstance(valor, (int, float)) and valor:
+            from .utils import formatar_moeda
+            partes.append(formatar_moeda(valor))
+        elif chave in _ROTULOS and _int(valor):
+            partes.append(_qtd(_int(valor), _ROTULOS[chave]))
+        if len(partes) >= max_itens:
+            break
+    resultado = " · ".join(partes) or str(e.get("acao") or "—")
+
+    alertas = [_qtd(_int(r.get(k)), rot) for k, rot in _ALERTAS.items()
+               if _int(r.get(k))]
+    status = ("⚠ " + " · ".join(alertas)) if alertas else "✓ OK"
+
+    saida = str(e.get("saida") or "")
+    arquivo = saida.replace("\\", "/").rsplit("/", 1)[-1] if saida else "—"
+
+    modulo = e.get("modulo", "")
+    return {
+        "quando": quando,
+        "modulo": MODULOS.get(modulo, modulo),
+        "resultado": resultado,
+        "status": status,
+        "arquivo": arquivo,
+        "atencao": bool(alertas),
+    }
+
+
 def _int(v: Any) -> int:
     try:
         return int(v)

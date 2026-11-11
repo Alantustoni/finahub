@@ -61,9 +61,10 @@ class DashboardView(ctk.CTkFrame):
         ctk.CTkLabel(self, text="Últimas execuções", font=T.F_SECAO,
                      text_color=T.INK, anchor="w").pack(fill="x", pady=(4, 8))
         self.tabela = Tabela(
-            self, ["Quando", "Módulo", "Ação", "Resumo", "Arquivo gerado"],
-            larguras=[130, 140, 130, 260, 220], altura=250,
-            busca=True, exportar=True, nome_export="historico")
+            self, ["Quando", "Módulo", "Resultado", "Status", "Arquivo"],
+            larguras=[110, 150, 290, 140, 260], altura=300,
+            busca=True, exportar=True, nome_export="historico",
+            estilo="leve", unidade="execuções")
         self.tabela.pack(fill="both", expand=True)
 
         self._marca = None
@@ -88,7 +89,8 @@ class DashboardView(ctk.CTkFrame):
             return
         self._marca = marca
         m = historico.resumo_hoje()
-        self.c_exec.set(m["execucoes"], f'{m["modulos_usados"]} módulos usados')
+        self.c_exec.set(m["execucoes"], f'{m["modulos_usados"]} módulo usado' if m["modulos_usados"] == 1
+                       else f'{m["modulos_usados"]} módulos usados')
         self.c_conc.set(m["conciliados"])
         self.c_pend.set(m["pendentes"])
         self.c_inc.set(m["inconsistencias"])
@@ -97,16 +99,12 @@ class DashboardView(ctk.CTkFrame):
 
         linhas = []
         for e in historico.listar(60):
-            ts = e["ts"].replace("T", "  ")
-            resumo = " · ".join(f"{k}: {v}" for k, v in list(e["resumo"].items())[:3])
-            saida = e["saida"].rsplit("\\", 1)[-1].rsplit("/", 1)[-1] if e["saida"] else "—"
-            linhas.append([
-                ts, historico.MODULOS.get(e["modulo"], e["modulo"]),
-                e["acao"], resumo or "—", saida,
-            ])
+            f = historico.formatar_execucao(e)
+            linhas.append([f["quando"], f["modulo"], f["resultado"],
+                           f["status"], f["arquivo"]])
         if not linhas:
             linhas = [["—", "Nenhuma execução registrada ainda",
-                       "", "abra um módulo na barra lateral para começar", ""]]
+                       "abra um módulo na barra lateral para começar", "", ""]]
         self.tabela.preencher(linhas)
 
     # ------------------------------------------------------------------ #
